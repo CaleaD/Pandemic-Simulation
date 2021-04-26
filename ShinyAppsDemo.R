@@ -1,6 +1,5 @@
 library(shiny)
 library(rsconnect)
-setwd("C:/Users/NitrousOxide/Desktop/Faculty/Year 2, Sem2/Team Project/Epidemic");
 source("Modulated Scripts.R");
 ui <- fluidPage(
   
