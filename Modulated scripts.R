@@ -11,6 +11,8 @@
 
 #multiple "#" means that there is a function between two sets
 
+# TODO
+# parametrise general functions(like solve.sir, plot.sir, etc.)
 
 
 
@@ -430,8 +432,26 @@ SIR_Death_Comparison <- function(time, state, parameters) {
 # hospitalization
 # vaccination
 # ~ 3 years for entire population;
-initSIR_Death_Comparison = function(infect = 1.4247 / 4,recov  = 0.14286 / c(1.2, 1.3),death = recov * c(1/10, 1/2),hosp = 0.1,vacc = 1 / 1000,vacc_seq= seq(1, 60, by=10))
+
+
+# maybe turn the parameters into a list?
+initSIR_Death_Comparison = function(infect = 1.4247 / 4,recov  = 0.14286 / c(1.2, 1.3),death = recov * c(1/10, 1/2),hosp = 0.1,vacc = 1 / 1000,vacc_seq= seq(1, 60, by=10),ylim=c(0,0.4))
 {
+  # TODO
+  # If ylim exists, fix the legend, otherwise make the legend dynamic(moves with graph)
+  # Parametrise the plot.sir to allow it to work for all different models
+  plot.sir = function(y, times, legend.lbl=c("Susceptible", "Infected", "Recovered"),
+                      legend.xy, leg.off=c(0,0), ylab="Susceptible and Recovered",ylim=NULL) {
+    if(missing(legend.xy)) legend.xy=legend.xyf(times, leg.off)
+    matplot(x = times, y = y, type = "l",
+            xlab = "Time", ylab = ylab, main = "SIR Model",
+            lwd = 1, lty = 1, bty = "l", col = 2:10,ylim)
+    
+    ## Add legend
+    legend(legend.xy[1], legend.xy[2], legend.lbl,
+           pch = 1, col = 2:10, bty = "n")
+  }
+  
   parameters = c(infect = infect,
                  recov = recov[1], recov.h = recov[2],
                  death=death[1], death.h = death[2], hosp = hosp, vacc = vacc)
@@ -439,17 +459,20 @@ initSIR_Death_Comparison = function(infect = 1.4247 / 4,recov  = 0.14286 / c(1.2
   ### Solve using ode
   out = solve.sir(SIR_Death_Comparison, init, parameters, times)
   head(out, 10)
-  solve.SIR = function(param, type="vacc") {
+  #TODO select parameter
+  #output type to init
+  solve.SIR = function(param, type="vacc", output="D") {
     type = match(type, c("infect", "recov", "death", "hosp", "vacc"))
     if(is.na(type)) stop("Invalid type!")
     parameters[type] = param
-    solve.sir(SIR_Death_Comparison, init, parameters, times)$D;
+    solve.sir(SIR_Death_Comparison, init, parameters, times)[,output];
   }
   
   vacc.seq = vacc * vacc_seq
   out = sapply(vacc.seq, solve.SIR, type="vacc")
-  plot.sir(out, times, ylab="Mortality",
-           legend.lbl=paste("Vaccination", vacc.seq), legend.xy=c(15,0.15))
+  # If ylim is sent, fix legend, if not
+  plot.sir(out, times, ylab="Mortality",                          #v turn this into a parameter
+           legend.lbl=paste("Vaccination", vacc.seq), legend.xy=c(15,3/4*max(out)),ylim) # ylim becomes parameter
   #plot.sir(out, times, ylab="Mortality",legend.lbl=paste("Vaccination", death.seq), legend.xy=c(0,1))
 }
 
@@ -504,11 +527,11 @@ legend.xyf = function(times, x=c(0,0)) {
   c(max(times)*2/3, 0.7) + x;
 }
 plot.sir = function(y, times, legend.lbl=c("Susceptible", "Infected", "Recovered"),
-                    legend.xy, leg.off=c(0,0), ylab="Susceptible and Recovered") {
+                    legend.xy, leg.off=c(0,0), ylab="Susceptible and Recovered",...) {
   if(missing(legend.xy)) legend.xy=legend.xyf(times, leg.off)
   matplot(x = times, y = y, type = "l",
           xlab = "Time", ylab = ylab, main = "SIR Model",
-          lwd = 1, lty = 1, bty = "l", col = 2:10)
+          lwd = 1, lty = 1, bty = "l", col = 2:10,...)
   
   ## Add legend
   legend(legend.xy[1], legend.xy[2], legend.lbl,
@@ -983,7 +1006,6 @@ par(old.par)
 
 
 #TwoViruses.r has not been included, instead, I added TwoViruses3D.r
-
 
 
 
