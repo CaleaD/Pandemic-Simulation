@@ -437,6 +437,8 @@ SIR_Death_Comparison <- function(time, state, parameters) {
 # maybe turn the parameters into a list?
 initSIR_Death_Comparison = function(infect = 1.4247 / 4,recov  = 0.14286 / c(1.2, 1.3),death = recov * c(1/10, 1/2),hosp = 0.1,vacc = 1 / 1000,vacc_seq= seq(1, 60, by=10),ylim=c(0,0.4))
 {
+  end.time = 120
+  times = seq(0, end.time, by = 1)
   # TODO
   # If ylim exists, fix the legend, otherwise make the legend dynamic(moves with graph)
   # Parametrise the plot.sir to allow it to work for all different models
@@ -445,7 +447,7 @@ initSIR_Death_Comparison = function(infect = 1.4247 / 4,recov  = 0.14286 / c(1.2
     if(missing(legend.xy)) legend.xy=legend.xyf(times, leg.off)
     matplot(x = times, y = y, type = "l",
             xlab = "Time", ylab = ylab, main = "SIR Model",
-            lwd = 1, lty = 1, bty = "l", col = 2:10,ylim)
+            lwd = 1, lty = 1, bty = "l", col = 2:10)
     
     ## Add legend
     legend(legend.xy[1], legend.xy[2], legend.lbl,
@@ -472,7 +474,7 @@ initSIR_Death_Comparison = function(infect = 1.4247 / 4,recov  = 0.14286 / c(1.2
   out = sapply(vacc.seq, solve.SIR, type="vacc")
   # If ylim is sent, fix legend, if not
   plot.sir(out, times, ylab="Mortality",                          #v turn this into a parameter
-           legend.lbl=paste("Vaccination", vacc.seq), legend.xy=c(15,3/4*max(out)),ylim) # ylim becomes parameter
+           legend.lbl=paste("Vaccination", vacc.seq), legend.xy=c(15,3/4*max(out))) # ylim becomes parameter
   #plot.sir(out, times, ylab="Mortality",legend.lbl=paste("Vaccination", death.seq), legend.xy=c(0,1))
 }
 
