@@ -18,25 +18,34 @@ ui <- fluidPage(
   mainPanel("All the cool stuff"),
   textOutput("boy")
 )
+ui1 <- fluidPage(plotOutput("DRE1"))
 ui <- fluidPage("My app",
                 sidebarLayout(
                 sidebarPanel(
                   selectInput(inputId="select",label=" Select model ",
                               choices = list("SIR" = 1, "OLD" = 2, "Young" = 3),selected=1),
+                  
                   sliderInput(inputId = "time",label="Number of days",
                               value=1, min=1,max=720, step=1),
+                  
                   sliderInput(inputId = "infect",label="Rate of infection",
                               value=0.0001, min=0.0001,max=0.7, step=0.001),
+                  
                   sliderInput(inputId = "recov",label="Rate of recovery",
                               value=0.0001, min=0.0001,max=0.7, step=0.001),
+                  
                   sliderInput(inputId = "recov.h",label="Rate of recovery in hospitals",
                               value=0.0001, min=0.0001,max=0.7, step=0.001),
+                  
                   sliderInput(inputId = "death",label="Rate of death",
                               value=0.0001, min=0.0001,max=0.7, step=0.001),
+                  
                   sliderInput(inputId = "death.h",label="Rate of death in hospitals",
                               value=0.0001, min=0.0001,max=0.7, step=0.001),
+                  
                   sliderInput(inputId = "hosp",label="Rate of hospitalisation",
                               value=0.0001, min=0.0001,max=0.7, step=0.001),
+                  
                   sliderInput(inputId = "hosp.v",label="Rate of hospitalisation for old people",
                               value=0.0001, min=0.0001,max=0.7, step=0.001),
                   
@@ -67,6 +76,11 @@ server <- function(input,output){
     #"3"=initSIR_Hosp_Com(global_param$furious,input$time)
     )
   })
+  output$DRE1 =renderPlot({})
 }
 
-shinyApp(ui=ui,server=server)
+shinyApp(ui=ui1,server=server)
+
+# to implement
+# tabsets(with their own models and parameters)
+# fancy(-er) display(plot up, params down)
