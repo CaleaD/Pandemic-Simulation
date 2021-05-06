@@ -23,7 +23,7 @@ ui <- fluidPage("My app",
                 sidebarLayout(
                 sidebarPanel(
                   selectInput(inputId="select",label=" Select model ",
-                              choices = list("SIR" = 1, "OLD" = 2, "Young" = 3),selected=1),
+                              choices = list("SIR" = 1, "SIR_Custom" = 2,"Hosp_Com" = 3, "Hosp_Com_Custom" = 4),selected=1),
                   
                   sliderInput(inputId = "time",label="Number of days",
                               value=1, min=1,max=720, step=1),
@@ -48,14 +48,8 @@ ui <- fluidPage("My app",
                   
                   sliderInput(inputId = "hosp.v",label="Rate of hospitalisation for old people",
                               value=0.0001, min=0.0001,max=0.7, step=0.001),
-                  
-                  
-                              
                                  textOutput("John")),
                 mainPanel("hi",plotOutput("DRE"))),
-               
-                
-
                  
 )
 #recov  = 0.14286 / c(1.2, 1.3)
@@ -71,15 +65,18 @@ server <- function(input,output){
     custom=c(input$infect,input$recov,input$recov.h,input$death,input$death.h,input$hosp,input$hosp.v)
     #list_test=c(infect = 1.4247,recov  = 0.14286 / c(1.2, 1.3),death = recov * c(1/10, 1/2),hosp = c(0.1, 0.2))
     switch(graph,
-    "1"=initSIR_Hosp_Com(global_param$default,input$time),
-    "2"=initSIR_Hosp_Com(custom,input$time),
+    "1"=initSIR_Basic(global_param$default,input$time),
+    "2"=initSIR_Basic(custom,input$time),
+    "3"=initSIR_Hosp_Com(global_param$default,input$time),
+    "4"=initSIR_Hosp_Com(custom,input$time),
+    
     #"3"=initSIR_Hosp_Com(global_param$furious,input$time)
     )
   })
   output$DRE1 =renderPlot({})
 }
 
-shinyApp(ui=ui1,server=server)
+shinyApp(ui=ui,server=server)
 
 # to implement
 # tabsets(with their own models and parameters)
