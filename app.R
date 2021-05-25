@@ -9,17 +9,28 @@ library(shinyjs)
   #furious=c(infect = 100,recov  = 0/ c(1.2, 1.3),death = c(1,2),hosp = c(0.1, 0.2))
 #)
 source("Beta_QM.R");
+source("TwoViruses3D(with seed).R")
 ui2 <- fluidPage(
   
   titlePanel("Epidemic Simulator"),
   sidebarLayout(
-    sidebarPanel("Settings and Variables",position="right"),
-    mainPanel("Other stuff")
+    sidebarPanel("Settings and Variables",position="right",
+                 sliderInput(inputId = "its",label="Number of iterations",
+                             value=1, min=1,max=720, step=1,
+                             animate=animationOptions(interval = 10, loop = FALSE))),
+    mainPanel("Other stuff",plotOutput("virus"))
   ),
   mainPanel("All the cool stuff"),
   textOutput("boy")
 
 )
+server2<-function(input,output)
+{
+  output$virus=renderPlot({
+    TV3D(input$its,1)
+  })
+}
+
 ui1 <- fluidPage(plotOutput("DRE1"))
 ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                 tabsetPanel(
@@ -105,7 +116,16 @@ ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                                      sliderInput(inputId = "vacc.oV",label="Rate of vaccination for young people",
                                        value=0.0001, min=0,max=0.001, step=0.0001))
                            )
-                  )
+                  ),
+                  tabPanel("Two Viruses",
+                           plotOutput("Virus"),
+                           hr(),
+                           fluidRow(
+                             column(12,
+                                    sliderInput(inputId = "its",label="Number of iterations",
+                                                value=1, min=1,max=720, step=1,
+                                                animate=animationOptions(interval =250, loop = FALSE))           
+                             )))
                 )
 )
                 
@@ -140,7 +160,9 @@ server <- function(input,output){
     custom=c(input$infectH,input$recovH,input$recov.hH,input$deathH,input$death.hH,input$hospH,input$hosp.vH)
     initSIR_Hosp_Com(custom,input$timeH)
   })
-
+  output$Virus=renderPlot({
+    TV3D(input$its,2)
+  })
 output$Vacc=renderPlot({
   custom=c(input$infectV,
            input$recovV,

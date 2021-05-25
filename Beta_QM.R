@@ -22,7 +22,6 @@ solve.sir = function(sir.f, init, parameters, times) {
 
 
 
-
 ### Plot SIR
 legend.xyf = function(times, x=c(0,0)) {
   c(max(times)*2/3, 0.7) + x;
