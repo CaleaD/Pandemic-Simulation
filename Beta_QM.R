@@ -209,6 +209,12 @@ initSIR_VAacc_Older = function(list,end.time)
   out = solve.sir(sir, init, parameters, times)
   head(out, 10)
   
+  
+  lines(c(0, times), (c(out$D, 0) - c(0, out$D)) * 30, col="red")
+  dD = diff(out$D, lag=1)
+  dD = c(0, dD)
+  lines(times, dD * 30, col="red")
+  
   ### Plot
   plot.sir(out, times, legend.lbl = c("Total", "Young", "Infected", "Recovered", "Death", "Hosp", "Old", "OldDeath", "VaccinatedYoung", "VaccinatedOld"), leg.off=c(-0.1, 0.3))
   
@@ -216,12 +222,10 @@ initSIR_VAacc_Older = function(list,end.time)
 }
 
 
-
-
-
-
-
-
-
-
-
+### Daily Mortality
+# lines(c(0, times), (c(out$D, 0) - c(0, out$D)) * 30, col="red")
+dD = diff(out$D, lag=1)
+dD = c(0, dD)
+lines(times, dD * 30, col="red") # * 30 = uses a different scaling!
+max(dD*100)
+plot(cut(dD*100, breaks = 20))
