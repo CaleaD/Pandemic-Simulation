@@ -36,7 +36,6 @@ diagram1  = function(file="BasicSIR.png", save.png=FALSE) {
               arr.pos = 0.8, lcol = "red", arr.col = "red")
 }
 
-diagram1()
 
 diagram3  = function(file="SIR + Vaccination.png", save.png=FALSE) {
   
@@ -134,5 +133,3 @@ diagram3  = function(file="SIR + Vaccination.png", save.png=FALSE) {
               curve = -0.2, arr.pos = 0.9)
   
 }
-
-diagram3()
