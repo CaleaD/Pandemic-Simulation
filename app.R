@@ -38,8 +38,7 @@ ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                 tabsetPanel(
                   tabPanel("Basic SIR model",
                            plotOutput("BasicPl"),
-                           
-                           
+                           checkboxInput("toggle","Toggle between diagram and plot",value=FALSE),
                            hr(),
                            
                   fluidRow(
@@ -53,8 +52,7 @@ ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                   
                   column(4,
                   sliderInput(inputId = "recovB",label="Rate of recovery",
-                              value=0.0001, min=0,max=0.7, step=0.001)),
-                  imageOutput("BasicDia")
+                              value=0.0001, min=0,max=0.7, step=0.001))
                   )),
                   
                   
@@ -88,6 +86,7 @@ ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                   ), 
                   tabPanel("Vaccination SIR model",
                            plotOutput("Vacc"),
+                           checkboxInput("toggleC","Toggle between plot and diagram"),
                            hr(),
                            fluidRow(
                              column(3,
@@ -122,8 +121,7 @@ ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                              sliderInput(inputId = "vacc.yV",label="Rate of vaccination for old people",
                                          value=0.0001, min=0,max=0.001, step=0.0001),
                                      sliderInput(inputId = "vacc.oV",label="Rate of vaccination for young people",
-                                       value=0.0001, min=0,max=0.001, step=0.0001)),
-                             imageOutput("Complex")
+                                       value=0.0001, min=0,max=0.001, step=0.0001))
                            )
                            
                   ),
@@ -141,16 +139,7 @@ ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                 
 #recov  = 0.14286 / c(1.2, 1.3)
 server <- function(input,output){
- # output$boy<-renderText({})
-  # TODO
-  # make all input into a list
-  # allow the init to receive a list as a parameter(reduces call length, maybe easier to debug?)
-  #isay=reactive(input$time)
- output$Complex=renderImage({
-   list(src="./ye2.1.png",width = 510,
-        height = 524)
- }
- )
+
  output$John=renderText(
                                #global_param$default
                                if(input$time>50){
@@ -163,26 +152,13 @@ server <- function(input,output){
                                
    )
   output$BasicPl<-renderPlot({
-
     custom=c(input$infectB,input$recovB)
-    initSIR_Basic(custom,input$timeB)
-    
+    if(input$toggle==FALSE)
+      initSIR_Basic(custom,input$timeB)
+    else
+      diagram1()
   })
-  output$BasicDia<-renderImage({
-      list(src="./ye1.1.png",width = 458*2.5,
-      height = 154*2.5)
-   #if(input$toggle)
-   # img=readPNG(source="ye1.png")
-   # writePNG(img)
-   # else
-    #{
-    #initSIR_Death_Comparison(recov=input$it/c(1.2,1.3))
-   # 
-    #list_test=c(infect = 1.4247/4,recov  = 0.14286 / c(1.2, 1.3),death = recov * c(1/10, 1/2),hosp = c(0.1, 0.2))
-   # 
-   # }
-    #"3"=initSIR_Hosp_Com(global_param$furious,input$time)
-  },deleteFile = FALSE)
+
   output$Hosp<-renderPlot({
     custom=c(input$infectH,input$recovH,input$recov.hH,input$deathH,input$death.hH,input$hospH,input$hosp.vH)
     initSIR_Hosp_Com(custom,input$timeH)
@@ -202,7 +178,10 @@ server <- function(input,output){
            input$vacc.yV,
            input$death.oV,
            input$death.ohV)
-  initSIR_VAacc_Older(custom,input$timeV)
+  if(input$toggleC==FALSE)
+    initSIR_VAacc_Older(custom,input$timeV)
+  else
+    diagram3(scaleX=0.9,scaleY=0.9)
 })
 }
 shinyApp(ui=ui,server=server)

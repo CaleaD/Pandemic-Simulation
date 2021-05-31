@@ -69,7 +69,7 @@ y0 = 0.6;
 
 ### SIR + Hospital + Death
 
-dev.new(width = 11.7, height = 8.3)
+#dev.new(width = 11.7, height = 8.3)
 # png(file="Diagram.Model.H.png", width = 11.7, height = 8.3, units="in", res=100) # run this to save as png;
 par.old = par(mar=c(0,0,2,0) + 0.01)
 emptyplot(main = "SIR Model")
@@ -127,7 +127,7 @@ cvarrow(xyHi, col="indianred1")
 x0 = 0.02;
 y0 = 0.6;
 
-dev.new(width = 11.7, height = 8.3)
+#dev.new(width = 11.7, height = 8.3)
 # png(file="Diagram.Model.oldAge.png", width = 11.7, height = 8.3, units="in", res=100) # run this to save as png;
 par.old = par(mar=c(0,0,2,0) + 0.01)
 emptyplot(main = "SIR Model")
@@ -196,16 +196,16 @@ lnarrow(xyH, xyD)
 # - run the specific code between the PNG/PDF lines of code;
 
 # set working directory
-setwd("... _path_to_directory_ ...")
+#setwd("... _path_to_directory_ ...")
 
 ### PNG
-png(file="Diagram.Model_1.png", width = 11.7, height = 8.3, units="in", res=100)
+#png(file="Diagram.Model_1.png", width = 11.7, height = 8.3, units="in", res=100)
 	# ... run specific code, but without the dev.new(...) line!
-dev.off() # close file
+#dev.off() # close file
 
 
 ### PDF
-pdf(file="Diagram.Model_1.pdf")
+#pdf(file="Diagram.Model_1.pdf")
 	# ... run specific code
-dev.off() # close file
+#dev.off() # close file
 
