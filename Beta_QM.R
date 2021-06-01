@@ -222,9 +222,12 @@ initSIR_VAacc_Older = function(list,end.time)
 
 
 ### Daily Mortality
-# lines(c(0, times), (c(out$D, 0) - c(0, out$D)) * 30, col="red")
+#lines(c(0, times), (c(out$D, 0) - c(0, out$D)) * 30, col="red")
+day_mort=function()
+{
 dD = diff(out$D, lag=1)
 dD = c(0, dD)
 lines(times, dD * 30, col="red") # * 30 = uses a different scaling!
 max(dD*100)
-plot(cut(dD*100, breaks = 20))
+plot(cut(dD*100, breaks = 100))
+}

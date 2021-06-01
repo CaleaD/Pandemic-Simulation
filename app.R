@@ -37,6 +37,7 @@ ui1 <- fluidPage(plotOutput("DRE1"))
 ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                 tabsetPanel(
                   tabPanel("Basic SIR model",
+                           textOutput("BasicT"),
                            plotOutput("BasicPl"),
                            checkboxInput("toggle","Toggle between diagram and plot",value=FALSE),
                            hr(),
@@ -57,7 +58,9 @@ ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                   
                   
                   tabPanel("Hospitalization SIR model",
+                           textOutput("HospT"),
                            plotOutput("Hosp"),
+                           checkboxInput("toggleH","Toggle between plot and diagram"),
                            hr(),
                            fluidRow(
                              column(4,
@@ -85,8 +88,10 @@ ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                   )
                   ), 
                   tabPanel("Vaccination SIR model",
+                           textOutput("VaccT"),
                            plotOutput("Vacc"),
                            checkboxInput("toggleC","Toggle between plot and diagram"),
+                           
                            hr(),
                            fluidRow(
                              column(3,
@@ -126,6 +131,7 @@ ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                            
                   ),
                   tabPanel("Two Viruses",
+                           textOutput("VirusT"),
                            plotOutput("Virus"),
                            hr(),
                            fluidRow(
@@ -139,29 +145,27 @@ ui <- fluidPage("Epidemic Simulation",useShinyjs(),
                 
 #recov  = 0.14286 / c(1.2, 1.3)
 server <- function(input,output){
-
- output$John=renderText(
-                               #global_param$default
-                               if(input$time>50){
-                                 shinyjs::hide(id="DRE")
-                                 shinyjs::show(id="DRE1")}
-                               else{
-                                 shinyjs::show(id="DRE")
-                                 shinyjs::hide(id="DRE1")
-                               }
-                               
-   )
+  output$VirusT<-renderText("A model showcasing the spread of two viruses overtime")
+  output$BasicT=renderText("A (S)usceptible (I)nfectious and (R)emoved model")
+  output$HospT=renderText("A more complex model that also includes hospitalization statistics")
+  output$VaccT=renderText("An even more complex model that includes vaccination statistics")
   output$BasicPl<-renderPlot({
     custom=c(input$infectB,input$recovB)
     if(input$toggle==FALSE)
       initSIR_Basic(custom,input$timeB)
     else
-      diagram1()
+        diagram1()
+    #else
+     # if(input$toggle)
+     # diagram1()
   })
 
   output$Hosp<-renderPlot({
     custom=c(input$infectH,input$recovH,input$recov.hH,input$deathH,input$death.hH,input$hospH,input$hosp.vH)
-    initSIR_Hosp_Com(custom,input$timeH)
+    if(input$toggleH==FALSE)
+      initSIR_Hosp_Com(custom,input$timeH)
+    else
+      diagram2()
   })
   output$Virus=renderPlot({
     TV3D(input$its,2)

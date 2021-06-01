@@ -61,8 +61,8 @@ transmit = function(m, it, v2, p1, p2, surv.time) {
       p1;
     }
   }
-  for(nc in 1:ncol(m)) {
-    for(nr in 1:nrow(m)) {
+  for(nc in seq(1,ncol(m),by=1)) {
+    for(nr in seq(1,nrow(m),by=1)) {
       if(m[nr, nc, 1] < recov) next;
       if(m[nr, nc, 1] >= recov) {
         if(nc > 1 && m[nr, nc - 1, 1] == 0) {
@@ -98,14 +98,14 @@ transmit = function(m, it, v2, p1, p2, surv.time) {
 
 #We check if V2 became active at iteration inf.time
 transmit.it = function(m, p1, p2, surv.time, inf.time,minIt=50, maxIt=51) {
-  for(it in minIt:maxIt) {
+   for(it in minIt:maxIt) {
     if(it >= inf.time){
       m = transmit(m, it, v2 = TRUE, p1, p2, surv.time=surv.time)
     }
     else {
       m = transmit(m, it, v2 = FALSE, p1, p2, surv.time=surv.time)
     }
-  }
+   }
   invisible(m)
 }
 

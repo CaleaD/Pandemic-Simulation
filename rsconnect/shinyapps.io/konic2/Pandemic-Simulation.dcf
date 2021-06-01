@@ -5,10 +5,10 @@ account: konic2
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4096262
-bundleId: 4638237
+bundleId: 4661479
 url: https://konic2.shinyapps.io/Pandemic-Simulation/
-when: 1621958367.09874
-lastSyncTime: 1621958367.09874
+when: 1622480077.33304
+lastSyncTime: 1622480077.33304
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: Modulated scripts.R|oingo boing.txt|README.md|Session 1/R.Intro_even_newer.R|Session 1/R.Intro_new.R|Session 1/R.Intro_old.R|Session 2/Models.Diagrams.R|Session 2/Models.Types.R|Session 2/Models.Visualisation.R|Session 4/7Bridges.R|Session 4/YoungAndOld.R|Session 5/YoungAndOld.R|Shiny_Prototype.R|SIR_Models/SIR_Mortalities.R|SIR_Models/SIR_VaccinationRatesComparisons.R|TODOs.R|Session 3
+ignoredFiles: Models.Diagrams.R|Modulated scripts.R|oingo boing.txt|README.md|Session 1/R.Intro_even_newer.R|Session 1/R.Intro_new.R|Session 1/R.Intro_old.R|Session 2/Models.Diagrams.R|Session 2/Models.Types.R|Session 2/Models.Visualisation.R|Session 4/7Bridges.R|Session 4/YoungAndOld.R|Session 5/YoungAndOld.R|Shiny_Prototype.R|SIR_Models/SIR_Mortalities.R|SIR_Models/SIR_VaccinationRatesComparisons.R|TODOs.R|ye1.1.png|ye1.png|ye2.1.png|ye2.png|Session 3
